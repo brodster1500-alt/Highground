@@ -1,0 +1,723 @@
+<html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GameHub - Your Gaming Portal</title>
+<style>
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+
+body {
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+background: #000000;
+min-height: 100vh;
+color: white;
+position: relative;
+overflow-x: hidden;
+}
+
+body::before {
+content: '';
+position: fixed;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background-image:
+radial-gradient(ellipse at 20% 30%, rgba(255, 255, 255, 0.15) 0%, transparent 50%),
+radial-gradient(ellipse at 80% 60%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+radial-gradient(ellipse at 40% 80%, rgba(255, 255, 255, 0.12) 0%, transparent 50%);
+pointer-events: none;
+z-index: 0;
+}
+
+body::after {
+content: '';
+position: fixed;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><path d="M0,400 Q150,350 300,400 T600,400 T900,400 T1200,400 L1200,800 L0,800 Z" fill="white" opacity="0.05"/><path d="M0,450 Q200,400 400,450 T800,450 T1200,450 L1200,800 L0,800 Z" fill="white" opacity="0.08"/><path d="M0,500 Q250,450 500,500 T1000,500 T1200,500 L1200,800 L0,800 Z" fill="white" opacity="0.06"/><path d="M0,300 Q100,250 200,300 T400,300 T600,300 T800,300 T1000,300 T1200,300" stroke="white" stroke-width="2" fill="none" opacity="0.1"/><path d="M0,350 Q150,320 300,350 T600,350 T900,350 T1200,350" stroke="white" stroke-width="2" fill="none" opacity="0.08"/></svg>');
+background-size: cover;
+background-position: center;
+pointer-events: none;
+z-index: 0;
+animation: waveFloat 20s ease-in-out infinite;
+}
+
+@keyframes waveFloat {
+0%, 100% { transform: translateY(0px); }
+50% { transform: translateY(-20px); }
+}
+
+.container {
+position: relative;
+z-index: 1;
+max-width: 1200px;
+margin: 0 auto;
+padding: 20px;
+}
+
+header {
+text-align: center;
+padding: 40px 0;
+animation: fadeIn 1s ease-in;
+}
+
+h1 {
+font-size: 3.5em;
+margin-bottom: 10px;
+text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.tagline {
+font-size: 1.2em;
+opacity: 0.9;
+}
+
+.main-section {
+background: rgba(255, 255, 255, 0.1);
+backdrop-filter: blur(10px);
+border-radius: 20px;
+padding: 40px;
+margin: 20px 0;
+box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+}
+
+.nav-buttons {
+display: flex;
+gap: 20px;
+justify-content: center;
+margin: 30px 0;
+flex-wrap: wrap;
+}
+
+.btn {
+padding: 15px 40px;
+font-size: 1.2em;
+background: linear-gradient(180deg, #ffb3ba 0%, #ff8a8a 30%, #ff6b6b 60%, #ff5252 100%);
+color: white;
+border: none;
+border-radius: 50px;
+cursor: pointer;
+transition: all 0.3s ease;
+box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+font-weight: bold;
+}
+
+.btn:hover {
+transform: translateY(-3px);
+box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+}
+
+.btn-secondary {
+background: linear-gradient(180deg, #ffb3ba 0%, #ff8a8a 30%, #ff6b6b 60%, #ff5252 100%);
+}
+
+.games-grid {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+gap: 25px;
+margin-top: 30px;
+}
+
+.game-card {
+background: rgba(255, 255, 255, 0.15);
+border-radius: 15px;
+padding: 20px;
+transition: all 0.3s ease;
+cursor: pointer;
+border: 2px solid transparent;
+}
+
+.game-card:hover {
+transform: translateY(-5px);
+border-color: rgba(255, 255, 255, 0.3);
+background: rgba(255, 255, 255, 0.2);
+}
+
+.game-title {
+font-size: 1.4em;
+margin-bottom: 10px;
+font-weight: bold;
+}
+
+.game-description {
+opacity: 0.8;
+margin-bottom: 15px;
+}
+
+.play-btn {
+padding: 10px 25px;
+background: rgba(255, 255, 255, 0.9);
+color: #667eea;
+border: none;
+border-radius: 25px;
+cursor: pointer;
+font-weight: bold;
+transition: all 0.3s ease;
+}
+
+.play-btn:hover {
+background: white;
+transform: scale(1.05);
+}
+
+.upload-section {
+background: rgba(255, 255, 255, 0.1);
+padding: 30px;
+border-radius: 15px;
+margin-top: 20px;
+}
+
+.upload-area {
+border: 3px dashed rgba(255, 255, 255, 0.5);
+border-radius: 15px;
+padding: 40px;
+text-align: center;
+margin: 20px 0;
+transition: all 0.3s ease;
+}
+
+.upload-area:hover {
+border-color: rgba(255, 255, 255, 0.8);
+background: rgba(255, 255, 255, 0.05);
+}
+
+input[type="file"] {
+display: none;
+}
+
+input[type="text"], textarea {
+width: 100%;
+padding: 12px;
+margin: 10px 0;
+border: none;
+border-radius: 8px;
+background: rgba(255, 255, 255, 0.9);
+color: #333;
+font-size: 1em;
+}
+
+textarea {
+resize: vertical;
+min-height: 80px;
+font-family: inherit;
+}
+
+.hidden {
+display: none;
+}
+
+.game-frame {
+width: 100%;
+height: 600px;
+border: none;
+border-radius: 10px;
+background: white;
+}
+
+.back-btn {
+margin-bottom: 20px;
+}
+
+.discord-btn {
+position: fixed;
+top: 20px;
+left: 20px;
+width: 60px;
+height: 60px;
+background: #5865F2;
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+cursor: pointer;
+transition: all 0.3s ease;
+box-shadow: 0 4px 15px rgba(88, 101, 242, 0.4);
+z-index: 1000;
+text-decoration: none;
+}
+
+.discord-btn:hover {
+transform: scale(1.1);
+box-shadow: 0 6px 20px rgba(88, 101, 242, 0.6);
+}
+
+.discord-btn svg {
+width: 35px;
+height: 35px;
+fill: white;
+}
+
+.top-bar {
+position: fixed;
+top: 20px;
+left: 20px;
+padding: 15px;
+background: rgba(255, 255, 255, 0.1);
+backdrop-filter: blur(10px);
+display: flex;
+align-items: center;
+gap: 15px;
+z-index: 1000;
+box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+border-radius: 20px;
+width: fit-content;
+}
+
+.top-bar-btn {
+width: 50px;
+height: 50px;
+background: rgba(255, 255, 255, 0.15);
+border-radius: 12px;
+display: flex;
+align-items: center;
+justify-content: center;
+cursor: pointer;
+transition: all 0.3s ease;
+text-decoration: none;
+border: 2px solid transparent;
+}
+
+.top-bar-btn:hover {
+transform: translateY(-2px);
+border-color: rgba(255, 255, 255, 0.3);
+background: rgba(255, 255, 255, 0.2);
+}
+
+.top-bar-btn svg {
+width: 28px;
+height: 28px;
+fill: white;
+}
+
+.container {
+margin-top: 20px;
+}
+
+.download-overlay {
+position: fixed;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background: rgba(0, 0, 0, 0.98);
+z-index: 10000;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+
+.download-box {
+background: rgba(255, 255, 255, 0.1);
+backdrop-filter: blur(10px);
+border-radius: 20px;
+padding: 60px 40px;
+text-align: center;
+box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+max-width: 500px;
+}
+
+.download-box h1 {
+font-size: 2.5em;
+margin-bottom: 20px;
+}
+
+.download-box p {
+font-size: 1.2em;
+opacity: 0.9;
+margin-bottom: 30px;
+}
+
+.download-btn {
+padding: 20px 50px;
+font-size: 1.3em;
+background: linear-gradient(180deg, #ffb3ba 0%, #ff8a8a 30%, #ff6b6b 60%, #ff5252 100%);
+color: white;
+border: none;
+border-radius: 50px;
+cursor: pointer;
+transition: all 0.3s ease;
+box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+font-weight: bold;
+}
+
+.download-btn:hover {
+transform: translateY(-3px);
+box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+}
+
+@keyframes fadeIn {
+from { opacity: 0; transform: translateY(-20px); }
+to { opacity: 1; transform: translateY(0); }
+}
+
+.form-group {
+margin: 15px 0;
+}
+
+label {
+display: block;
+margin-bottom: 5px;
+font-weight: bold;
+}
+</style>
+</head>
+<body style="background: rgb(0, 0, 0);">
+<!-- Download Overlay -->
+
+
+<!-- Top Bar -->
+<div class="top-bar">
+<a href="https://discord.gg/8WWrQaQz7q" target="_blank" class="top-bar-btn" title="Join our Discord">
+<svg viewBox="0 0 71 55" xmlns="http://www.w3.org/2000/svg">
+<path d="M60.1045 4.8978C55.5792 2.8214 50.7265 1.2916 45.6527 0.41542C45.5603 0.39851 45.468 0.440769 45.4204 0.525289C44.7963 1.6353 44.105 3.0834 43.6209 4.2216C38.1637 3.4046 32.7345 3.4046 27.3892 4.2216C26.905 3.0581 26.1886 1.6353 25.5617 0.525289C25.5141 0.443589 25.4218 0.40133 25.3294 0.41542C20.2584 1.2888 15.4057 2.8186 10.8776 4.8978C10.8384 4.9147 10.8048 4.9429 10.7825 4.9795C1.57795 18.7309 -0.943561 32.1443 0.293408 45.3914C0.299005 45.4562 0.335386 45.5182 0.385761 45.5576C6.45866 50.0174 12.3413 52.7249 18.1147 54.5195C18.2071 54.5477 18.305 54.5139 18.3638 54.4378C19.7295 52.5728 20.9469 50.6063 21.9907 48.5383C22.0523 48.4172 21.9935 48.2735 21.8676 48.2256C19.9366 47.4931 18.0979 46.6 16.3292 45.5858C16.1893 45.5041 16.1781 45.304 16.3068 45.2082C16.679 44.9293 17.0513 44.6391 17.4067 44.3461C17.471 44.2926 17.5606 44.2813 17.6362 44.3151C29.2558 49.6202 41.8354 49.6202 53.3179 44.3151C53.3935 44.2785 53.4831 44.2898 53.5502 44.3433C53.9057 44.6363 54.2779 44.9293 54.6529 45.2082C54.7816 45.304 54.7732 45.5041 54.6333 45.5858C52.8646 46.6197 51.0259 47.4931 49.0921 48.2228C48.9662 48.2707 48.9102 48.4172 48.9718 48.5383C50.038 50.6034 51.2554 52.5699 52.5959 54.435C52.6519 54.5139 52.7526 54.5477 52.845 54.5195C58.6464 52.7249 64.529 50.0174 70.6019 45.5576C70.6551 45.5182 70.6887 45.459 70.6943 45.3942C72.1747 30.0791 68.2147 16.7757 60.1968 4.9823C60.1772 4.9429 60.1437 4.9147 60.1045 4.8978ZM23.7259 37.3253C20.2276 37.3253 17.3451 34.1136 17.3451 30.1693C17.3451 26.225 20.1717 23.0133 23.7259 23.0133C27.308 23.0133 30.1626 26.2532 30.1066 30.1693C30.1066 34.1136 27.28 37.3253 23.7259 37.3253ZM47.3178 37.3253C43.8196 37.3253 40.9371 34.1136 40.9371 30.1693C40.9371 26.225 43.7636 23.0133 47.3178 23.0133C50.9 23.0133 53.7545 26.2532 53.6986 30.1693C53.6986 34.1136 50.9 37.3253 47.3178 37.3253Z"></path>
+</svg>
+</a>
+
+<div class="top-bar-btn" onclick="showSettings()" title="Settings">
+<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 15.5A3.5 3.5 0 0 1 8.5 12 3.5 3.5 0 0 1 12 8.5a3.5 3.5 0 0 1 3.5 3.5 3.5 3.5 0 0 1-3.5 3.5m7.43-2.53c.04-.32.07-.64.07-.97 0-.33-.03-.66-.07-1l2.11-1.63c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.31-.61-.22l-2.49 1c-.52-.39-1.06-.73-1.69-.98l-.37-2.65A.506.506 0 0 0 14 2h-4c-.25 0-.46.18-.5.42l-.37 2.65c-.63.25-1.17.59-1.69.98l-2.49-1c-.22-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64L4.57 11c-.04.34-.07.67-.07 1 0 .33.03.65.07.97l-2.11 1.66c-.19.15-.25.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1.01c.52.4 1.06.74 1.69.99l.37 2.65c.04.24.25.42.5.42h4c.25 0 .46-.18.5-.42l.37-2.65c.63-.26 1.17-.59 1.69-.99l2.49 1.01c.22.08.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.66z"></path>
+</svg>
+</div>
+</div>
+
+<div class="container">
+<header>
+<h1>Highground</h1>
+<p class="tagline">"The Only One You Need"</p>
+</header>
+
+<!-- Home Page -->
+<div id="homePage">
+<div class="main-section">
+<h2 style="text-align: center; margin-bottom: 20px; font-size: 2em;">Welcome to Highground!</h2>
+<p style="text-align: center; font-size: 1.1em; margin-bottom: 30px;"></p>
+<div class="nav-buttons">
+<button class="btn" onclick="showGames()" style="background: linear-gradient(rgb(255, 179, 186) 0%, rgb(255, 138, 138) 30%, rgb(255, 107, 107) 60%, rgb(255, 82, 82) 100%);">Browse Games</button>
+</div>
+
+<h3 style="text-align: center; margin-top: 40px; margin-bottom: 20px; font-size: 1.8em;">Featured Games</h3>
+<div id="featuredGames" class="games-grid">
+<div class="game-card">
+<div class="game-title">Retro Bowl</div>
+<div class="game-description">Classic football action with retro graphics!</div>
+<button class="play-btn" onclick="playGame(1)">▶ Play Now</button>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Games Page -->
+<div id="gamesPage" class="hidden">
+<button class="btn back-btn" onclick="showHome()" style="background: linear-gradient(rgb(255, 179, 186) 0%, rgb(255, 138, 138) 30%, rgb(255, 107, 107) 60%, rgb(255, 82, 82) 100%);">← Back to Home</button>
+<div class="main-section">
+<h2 style="font-size: 2em; margin-bottom: 20px;">Available Games</h2>
+<div id="gamesGrid" class="games-grid"></div>
+</div>
+</div>
+
+<!-- Settings Page -->
+<div id="settingsPage" class="hidden">
+<button class="btn back-btn" onclick="showHome()" style="background: linear-gradient(rgb(255, 179, 186) 0%, rgb(255, 138, 138) 30%, rgb(255, 107, 107) 60%, rgb(255, 82, 82) 100%);">← Back to Home</button>
+<div class="main-section">
+<h2 style="font-size: 2em; margin-bottom: 30px; text-align: center;">Settings</h2>
+
+<div style="max-width: 600px; margin: 0 auto;">
+<h3 style="font-size: 1.5em; margin-bottom: 20px; opacity: 0.9;">Theme Color</h3>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-bottom: 40px;">
+<div onclick="changeTheme('pink')" style="cursor: pointer; padding: 20px; background: rgba(255, 255, 255, 0.1); border-radius: 15px; text-align: center; transition: all 0.3s ease; border: 2px solid transparent;" onmouseover="this.style.borderColor='rgba(255, 255, 255, 0.3)'" onmouseout="this.style.borderColor='transparent'">
+<div style="width: 60px; height: 60px; background: #000000; border-radius: 50%; margin: 0 auto 10px; border: 2px solid rgba(255, 255, 255, 0.2);"></div>
+<p style="font-weight: bold;">Gray/Black</p>
+<p style="font-size: 0.9em; opacity: 0.7;">Default</p>
+</div>
+
+<div onclick="changeTheme('blue')" style="cursor: pointer; padding: 20px; background: rgba(255, 255, 255, 0.1); border-radius: 15px; text-align: center; transition: all 0.3s ease; border: 2px solid transparent;" onmouseover="this.style.borderColor='rgba(255, 255, 255, 0.3)'" onmouseout="this.style.borderColor='transparent'">
+<div style="width: 60px; height: 60px; background: #1a1a2e; border-radius: 50%; margin: 0 auto 10px; border: 2px solid rgba(255, 255, 255, 0.2);"></div>
+<p style="font-weight: bold;">Dark Navy</p>
+<p style="font-size: 0.9em; opacity: 0.7;">Cool</p>
+</div>
+
+<div onclick="changeTheme('green')" style="cursor: pointer; padding: 20px; background: rgba(255, 255, 255, 0.1); border-radius: 15px; text-align: center; transition: all 0.3s ease; border: 2px solid transparent;" onmouseover="this.style.borderColor='rgba(255, 255, 255, 0.3)'" onmouseout="this.style.borderColor='transparent'">
+<div style="width: 60px; height: 60px; background: #0f2027; border-radius: 50%; margin: 0 auto 10px; border: 2px solid rgba(255, 255, 255, 0.2);"></div>
+<p style="font-weight: bold;">Dark Teal</p>
+<p style="font-size: 0.9em; opacity: 0.7;">Fresh</p>
+</div>
+</div>
+
+<div style="text-align: center; padding: 40px 20px; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+<p style="font-size: 1.3em; opacity: 0.9;">More settings will be added soon!</p>
+<p style="font-size: 1em; opacity: 0.6; margin-top: 10px;">Check back later for customization options</p>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Upload Page -->
+<div id="uploadPage" class="hidden">
+<button class="btn back-btn" onclick="showHome()" style="background: linear-gradient(rgb(255, 179, 186) 0%, rgb(255, 138, 138) 30%, rgb(255, 107, 107) 60%, rgb(255, 82, 82) 100%);">← Back to Home</button>
+<div class="main-section">
+<h2 style="font-size: 2em; margin-bottom: 20px;">Upload Your Game</h2>
+<div class="upload-section">
+<div class="form-group">
+<label>Game Title:</label>
+<input type="text" id="gameTitle" placeholder="Enter game title">
+</div>
+<div class="form-group">
+<label>Game Description:</label>
+<textarea id="gameDescription" placeholder="Describe your game..."></textarea>
+</div>
+<div class="upload-area" onclick="document.getElementById('fileInput').click()">
+<p style="font-size: 1.3em; margin-bottom: 10px;">📁 Click to Upload HTML File</p>
+<p style="opacity: 0.8;">Select your HTML game file</p>
+<input type="file" id="fileInput" accept=".html,.htm" onchange="handleFileSelect(event)">
+<p id="fileName" style="margin-top: 15px; font-weight: bold;"></p>
+</div>
+<button class="btn" onclick="uploadGame()" style="width: 100%; background: linear-gradient(rgb(255, 179, 186) 0%, rgb(255, 138, 138) 30%, rgb(255, 107, 107) 60%, rgb(255, 82, 82) 100%);">🚀 Upload Game</button>
+</div>
+</div>
+</div>
+
+<!-- Game Player Page -->
+<div id="playerPage" class="hidden">
+<button class="btn back-btn" onclick="showGames()" style="background: linear-gradient(rgb(255, 179, 186) 0%, rgb(255, 138, 138) 30%, rgb(255, 107, 107) 60%, rgb(255, 82, 82) 100%);">← Back to Games</button>
+<div class="main-section">
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+<h2 id="playerTitle" style="font-size: 2em; margin: 0;"></h2>
+<button class="btn" onclick="toggleFullscreen()" style="padding: 10px 25px; background: linear-gradient(rgb(255, 179, 186) 0%, rgb(255, 138, 138) 30%, rgb(255, 107, 107) 60%, rgb(255, 82, 82) 100%);">⛶ Fullscreen</button>
+</div>
+<iframe id="gameFrame" class="game-frame"></iframe>
+</div>
+</div>
+</div>
+
+<script>
+let games = [
+{
+id: 1,
+title: "Retro Bowl",
+description: "Classic football action with retro graphics!",
+htmlContent: `<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Retro Bowl</title>
+<style>
+body { margin: 0; padding: 0; overflow: hidden; }
+iframe { width: 100%; height: 100vh; border: none; }
+</style>
+</head>
+<body>
+<iframe allowfullscreen="true" src="https://game316009.konggames.com/gamez/0031/6009/live/index.html" scrolling="no"></iframe>
+</body>
+</html>`
+}
+];
+let currentGameFile = null;
+let currentTheme = 'pink';
+
+function downloadFullSite() {
+// Get the complete HTML of the current page
+const htmlContent = document.documentElement.outerHTML;
+    
+// Remove the download overlay from the exported version
+const modifiedHTML = htmlContent.replace(/<div id="downloadOverlay"[\s\S]*?<\/div>\s*<\/div>/, '');
+    
+// Create a blob and download
+const blob = new Blob([modifiedHTML], { type: 'text/html' });
+const url = URL.createObjectURL(blob);
+const a = document.createElement('a');
+a.href = url;
+a.download = 'Highground.html';
+a.click();
+URL.revokeObjectURL(url);
+    
+// Keep the overlay - don't hide it
+// User MUST play from the downloaded file
+}
+
+function changeTheme(theme) {
+currentTheme = theme;
+const body = document.body;
+
+let gradient = '';
+let background = '';
+if (theme === 'pink') {
+gradient = 'linear-gradient(180deg, #ffb3ba 0%, #ff8a8a 30%, #ff6b6b 60%, #ff5252 100%)';
+background = '#000000';
+} else if (theme === 'blue') {
+gradient = 'linear-gradient(180deg, #667eea 0%, #764ba2 100%)';
+background = '#1a1a2e';
+} else if (theme === 'green') {
+gradient = 'linear-gradient(180deg, #2eb5c9 0%, #1a8a99 60%, #0f6574 100%)';
+background = '#0f2027';
+}
+
+// Update background color
+body.style.background = background;
+
+// Update all buttons
+const buttons = document.querySelectorAll('.btn, .btn-secondary');
+buttons.forEach(btn => {
+btn.style.background = gradient;
+});
+
+// Save theme preference
+localStorage.setItem('highgroundTheme', theme);
+}
+
+// Load saved theme on startup
+function loadTheme() {
+const savedTheme = localStorage.getItem('highgroundTheme');
+if (savedTheme) {
+changeTheme(savedTheme);
+} else {
+// Set default theme to pink (Gray/Black background)
+changeTheme('pink');
+}
+}
+
+function showHome() {
+document.getElementById('homePage').classList.remove('hidden');
+document.getElementById('gamesPage').classList.add('hidden');
+document.getElementById('uploadPage').classList.add('hidden');
+document.getElementById('playerPage').classList.add('hidden');
+document.getElementById('settingsPage').classList.add('hidden');
+displayFeaturedGames();
+}
+
+function showGames() {
+document.getElementById('homePage').classList.add('hidden');
+document.getElementById('gamesPage').classList.remove('hidden');
+document.getElementById('uploadPage').classList.add('hidden');
+document.getElementById('playerPage').classList.add('hidden');
+document.getElementById('settingsPage').classList.add('hidden');
+displayGames();
+}
+
+function showSettings() {
+document.getElementById('homePage').classList.add('hidden');
+document.getElementById('gamesPage').classList.add('hidden');
+document.getElementById('uploadPage').classList.add('hidden');
+document.getElementById('playerPage').classList.add('hidden');
+document.getElementById('settingsPage').classList.remove('hidden');
+}
+
+function handleFileSelect(event) {
+const file = event.target.files[0];
+if (file) {
+currentGameFile = file;
+document.getElementById('fileName').textContent = `Selected: ${file.name}`;
+}
+}
+
+function uploadGame() {
+const title = document.getElementById('gameTitle').value;
+const description = document.getElementById('gameDescription').value;
+
+if (!title || !description || !currentGameFile) {
+alert('Please fill in all fields and select an HTML file!');
+return;
+}
+
+const reader = new FileReader();
+reader.onload = function(e) {
+const game = {
+id: Date.now(),
+title: title,
+description: description,
+htmlContent: e.target.result
+};
+
+games.push(game);
+
+// Clear form
+document.getElementById('gameTitle').value = '';
+document.getElementById('gameDescription').value = '';
+document.getElementById('fileName').textContent = '';
+currentGameFile = null;
+
+alert('Game uploaded successfully! 🎉');
+showGames();
+};
+reader.readAsText(currentGameFile);
+}
+
+function displayGames() {
+const grid = document.getElementById('gamesGrid');
+
+if (games.length === 0) {
+grid.innerHTML = '<p style="text-align: center; font-size: 1.2em; opacity: 0.8;">No games uploaded yet. Be the first to upload a game!</p>';
+return;
+}
+
+grid.innerHTML = games.map(game => `
+<div class="game-card">
+<div class="game-title">${game.title}</div>
+<div class="game-description">${game.description}</div>
+<button class="play-btn" onclick="playGame(${game.id})">▶ Play Now</button>
+</div>
+`).join('');
+}
+
+function displayFeaturedGames() {
+const featuredContainer = document.getElementById('featuredGames');
+const featuredGames = games.slice(0, 3);
+
+featuredContainer.innerHTML = featuredGames.map(game => `
+<div class="game-card">
+<div class="game-title">${game.title}</div>
+<div class="game-description">${game.description}</div>
+<button class="play-btn" onclick="playGame(${game.id})">▶ Play Now</button>
+</div>
+`).join('');
+}
+
+function playGame(gameId) {
+const game = games.find(g => g.id === gameId);
+if (game) {
+document.getElementById('homePage').classList.add('hidden');
+document.getElementById('gamesPage').classList.add('hidden');
+document.getElementById('uploadPage').classList.add('hidden');
+document.getElementById('playerPage').classList.remove('hidden');
+
+document.getElementById('playerTitle').textContent = game.title;
+const iframe = document.getElementById('gameFrame');
+iframe.srcdoc = game.htmlContent;
+}
+}
+
+function toggleFullscreen() {
+const iframe = document.getElementById('gameFrame');
+
+if (!document.fullscreenElement) {
+if (iframe.requestFullscreen) {
+iframe.requestFullscreen();
+} else if (iframe.webkitRequestFullscreen) {
+iframe.webkitRequestFullscreen();
+} else if (iframe.msRequestFullscreen) {
+iframe.msRequestFullscreen();
+}
+} else {
+if (document.exitFullscreen) {
+document.exitFullscreen();
+} else if (document.webkitExitFullscreen) {
+document.webkitExitFullscreen();
+} else if (document.msExitFullscreen) {
+document.msExitFullscreen();
+}
+}
+}
+
+// Initialize
+window.onload = function() {
+loadTheme();
+showHome();
+};
+</script>
+
+</body></html>
